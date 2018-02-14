@@ -54,10 +54,8 @@ class App extends Component {
 							onWindowToggle={this.onWindowToggle.bind(this)}
 						/>
 					</div>
-					<div id='right-pane'>
-						<div id="flowchart-window">
+					<div className='Flo-right-pane'>
 							<Graph/>
-						</div>
 					</div>
 				</div>
 

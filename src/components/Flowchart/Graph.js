@@ -121,6 +121,7 @@ class Graph extends Component {
 	onSelectNode = viewNode => {
 		// Deselect events will send Null viewNode
 		if (!!viewNode) {
+			alert('SELECT');
 			this.setState({selected: viewNode});
 		} else {
 			this.setState({selected: {}});

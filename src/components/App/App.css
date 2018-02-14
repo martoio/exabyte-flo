@@ -47,9 +47,15 @@
   flex-direction: column;
   border-right: 2px solid #cccccc;
 }
+.Flo-right-pane {
+  width: 50%;
+  flex-grow: 1;
+
+}
 .editor-window {
   flex: 1;
   border-bottom: 1px solid #cccccc;
+  overflow-y: scroll;
 }
 
 .window-holder{
@@ -59,4 +65,36 @@
   display: flex;
   font-size: 3em;
   color: #dddddd;
+}
+
+/*TODO: Figure out a smarter way of doing this*/
+/*
+This removes the graph controls from being all the way in the left
+and puts them on the left relative to the graph element.
+*/
+#graph{
+  position: relative;
+}
+
+/*TODO: MOVE THIS*/
+/*
+Insane CSS selector trick to make heights behave nice
+Credit: https://stackoverflow.com/a/12198561
+*/
+/* one item */
+.editor-window:first-child:nth-last-child(1) {
+  /* -or- li:only-child { */
+  height: 100%;
+}
+
+/* two items */
+.editor-window:first-child:nth-last-child(2),
+.editor-window:first-child:nth-last-child(2) ~ .editor-window {
+  height: 50%;
+}
+
+/* three items */
+.editor-window:first-child:nth-last-child(3),
+.editor-window:first-child:nth-last-child(3) ~ .editor-window {
+  height: 33.3333%;
 }

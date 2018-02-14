@@ -43,7 +43,7 @@ const SpecialChildShape = (
 
 const EmptyEdgeShape = (
 	<symbol viewBox="0 0 50 50" id="emptyEdge">
-		<circle cx="25" cy="25" r="8" fill="currentColor"> </circle>
+		{/*<circle cx="25" cy="25" r="8" fill="currentColor"> </circle>*/}
 	</symbol>
 )
 
