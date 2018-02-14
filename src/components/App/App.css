@@ -66,7 +66,10 @@
   font-size: 3em;
   color: #dddddd;
 }
-
+/*TODO: move this to JSONWindow*/
+.react-json-view {
+  height: 100%;
+}
 /*TODO: Figure out a smarter way of doing this*/
 /*
 This removes the graph controls from being all the way in the left
@@ -97,4 +100,21 @@ Credit: https://stackoverflow.com/a/12198561
 .editor-window:first-child:nth-last-child(3),
 .editor-window:first-child:nth-last-child(3) ~ .editor-window {
   height: 33.3333%;
+}
+
+.library-blocks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+}
+.library-blocks .block{
+  height: 120px;
+  width: 120px;
+  margin: 24px 36px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px;
+  text-align: center;
+}
+.library-blocks .block p{
+  margin: 0;
 }

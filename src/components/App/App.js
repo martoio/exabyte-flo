@@ -6,7 +6,10 @@ import LibraryWindow from "../Windows/LibraryWindow";
 import ConsoleWindow from "../Windows/ConsoleWindow";
 import JSONWindow from "../Windows/JSONWindow";
 import Graph from "../Flowchart/Graph";
+import GraphConfig from '../Flowchart/graph-config';
 
+
+console.log(GraphConfig.NodeTypes.begin.shape);
 const NODE_KEY = "id"; // Key used to identify nodes
 
 // These keys are arbitrary (but must match the config)
@@ -97,7 +100,6 @@ class App extends Component {
 	onSelectNode = viewNode => {
 		// Deselect events will send Null viewNode
 		if (!!viewNode) {
-			alert('SELECT');
 			this.setState({selected: viewNode});
 		} else {
 			this.setState({selected: {}});
@@ -112,7 +114,6 @@ class App extends Component {
 	// Updates the graph with a new node
 	onCreateNode = (x, y) => {
 		const graph = this.state.graph;
-
 		// This is just an example - any sort of logic
 		// could be used here to determine node type
 		// There is also support for subtypes. (see 'sample' above)

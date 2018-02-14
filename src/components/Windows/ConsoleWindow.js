@@ -8,7 +8,7 @@ class ConsoleWindow extends React.Component{
 		let content = '';
 		if(this.props.isVisible){
 			content = <div className='editor-window'>
-				CONSOLE HERE
+				TODO: CONSOLE HERE
 			</div>
 		}
 		return(
