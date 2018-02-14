@@ -5,6 +5,7 @@ import EditorController from "../EditorController/EditorController";
 import LibraryWindow from "../Windows/LibraryWindow";
 import ConsoleWindow from "../Windows/ConsoleWindow";
 import JSONWindow from "../Windows/JSONWindow";
+import Graph from "../Flowchart/Graph";
 
 class App extends Component {
 	constructor(){
@@ -55,7 +56,7 @@ class App extends Component {
 					</div>
 					<div id='right-pane'>
 						<div id="flowchart-window">
-							FLOWCHART HERE
+							<Graph/>
 						</div>
 					</div>
 				</div>
