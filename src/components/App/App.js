@@ -7,6 +7,8 @@ import ConsoleWindow from "../Windows/ConsoleWindow";
 import JSONWindow from "../Windows/JSONWindow";
 import Graph from "../Flowchart/Graph";
 import GraphConfig from '../Flowchart/graph-config';
+import {DragDropContext} from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 
 console.log(GraphConfig.NodeTypes.begin.shape);
@@ -24,8 +26,9 @@ const PROCESS_BLOCK_TYPE = "process";
 const DECISION_BLOCK_TYPE = "decision";
 const EMPTY_EDGE_TYPE = "emptyEdge";
 const SPECIAL_EDGE_TYPE = "specialEdge";
+
 class App extends Component {
-	constructor(){
+	constructor() {
 		super();
 		this.state = {
 			windows: {
@@ -37,15 +40,37 @@ class App extends Component {
 				nodes: [],
 				edges: []
 			},
-			selected: {}
+			selected: {},
+			blockType: EMPTY_TYPE
 		};
+	}
+
+	changeBlockType(t){
+		switch (t){
+
+			case 'begin':
+				this.setState({blockType: BEGIN_BLOCK_TYPE});
+				break;
+			case 'end':
+				this.setState({blockType: END_BLOCK_TYPE});
+				break;
+			case 'process':
+				this.setState({blockType: PROCESS_BLOCK_TYPE});
+				break;
+			case 'decision':
+				this.setState({blockType: DECISION_BLOCK_TYPE});
+				break;
+			default:
+				this.setState({blockType: EMPTY_TYPE});
+				break;
+		}
 	}
 
 	/**
 	 * updates the state for window display;
 	 * @param win
 	 */
-	onWindowToggle(win){
+	onWindowToggle(win) {
 		let update = this.state.windows;
 		update[win] = !this.state.windows[win];
 		this.setState(update);
@@ -54,7 +79,7 @@ class App extends Component {
 	/**
 	 * Utility method to find if the left-pane has to display windows or placeholder
 	 */
-	hasWindows(){
+	hasWindows() {
 		let w = this.state.windows;
 		return w.library || w.json || w.console;
 	}
@@ -118,8 +143,8 @@ class App extends Component {
 		// could be used here to determine node type
 		// There is also support for subtypes. (see 'sample' above)
 		// The subtype geometry will underlay the 'type' geometry for a node
-		const type = Math.random() < 0.25 ? SPECIAL_TYPE : EMPTY_TYPE;
-
+		const type = this.state.blockType;
+		console.log(this.state.blockType);
 		const viewNode = {
 			id: this.state.graph.nodes.length + 1,
 			title: '',
@@ -208,6 +233,7 @@ class App extends Component {
 						}
 						<LibraryWindow
 							isVisible={this.state.windows.library}
+							changeBlockType={this.changeBlockType.bind(this)}
 						/>
 						<JSONWindow
 							isVisible={this.state.windows.json}
@@ -222,19 +248,20 @@ class App extends Component {
 						/>
 					</div>
 					<div className='Flo-right-pane'>
-							<Graph
-								graph={this.state.graph}
-								selected={this.state.selected}
-								getViewNode={this.getViewNode.bind(this)}
-								onSelectNode={this.onSelectNode.bind(this)}
-								onCreateNode={this.onCreateNode.bind(this)}
-								onUpdateNode={this.onUpdateNode.bind(this)}
-								onDeleteNode={this.onDeleteNode.bind(this)}
-								onSelectEdge={this.onSelectEdge.bind(this)}
-								onCreateEdge={this.onCreateEdge.bind(this)}
-								onSwapEdge={this.onSwapEdge.bind(this)}
-								onDeleteEdge={this.onDeleteEdge.bind(this)}
-							/>
+						<Graph
+							graph={this.state.graph}
+							selected={this.state.selected}
+							nodeType={this.state.blockType}
+							getViewNode={this.getViewNode.bind(this)}
+							onSelectNode={this.onSelectNode.bind(this)}
+							onCreateNode={this.onCreateNode.bind(this)}
+							onUpdateNode={this.onUpdateNode.bind(this)}
+							onDeleteNode={this.onDeleteNode.bind(this)}
+							onSelectEdge={this.onSelectEdge.bind(this)}
+							onCreateEdge={this.onCreateEdge.bind(this)}
+							onSwapEdge={this.onSwapEdge.bind(this)}
+							onDeleteEdge={this.onDeleteEdge.bind(this)}
+						/>
 					</div>
 				</div>
 
@@ -243,4 +270,4 @@ class App extends Component {
 	}
 }
 
-export default App;
+export default DragDropContext(HTML5Backend)(App);

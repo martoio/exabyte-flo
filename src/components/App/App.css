@@ -68,7 +68,7 @@
 }
 /*TODO: move this to JSONWindow*/
 .react-json-view {
-  height: 100%;
+  min-height: 100%;
 }
 /*TODO: Figure out a smarter way of doing this*/
 /*
