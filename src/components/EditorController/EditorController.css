@@ -1,0 +1,22 @@
+.Editor-controller {
+    height: 48px;
+    background: #323A4D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
+}
+
+.Editor-controller i.fas {
+    font-size: 1.6em;
+
+}
+.Editor-controller button{
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin: 0 36px;
+}
+.Editor-controller i.active{
+    color: white;
+}

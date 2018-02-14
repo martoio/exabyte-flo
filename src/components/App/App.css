@@ -1,0 +1,54 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.Flo-header {
+  margin: 0;
+  text-align: center;
+  width: 100%;
+  background: #2A3245;
+  color: white;
+  font-size: 2em;
+  padding: .4em 0;
+  border-bottom: 2px solid #cccccc;
+
+}
+
+.Flo-header h1{
+  margin: 0;
+}
+.Flo-content{
+  display: flex;
+  flex-grow: 1;
+}
+.Flo-left-pane {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  border-right: 2px solid #cccccc;
+}
+.editor-window {
+  flex: 1;
+  border-bottom: 1px solid #cccccc;
+
+}
