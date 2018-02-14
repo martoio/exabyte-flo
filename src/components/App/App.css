@@ -50,5 +50,13 @@
 .editor-window {
   flex: 1;
   border-bottom: 1px solid #cccccc;
+}
 
+.window-holder{
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size: 3em;
+  color: #dddddd;
 }
