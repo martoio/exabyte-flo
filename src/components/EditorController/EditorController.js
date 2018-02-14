@@ -19,14 +19,14 @@ class EditorController extends Component {
 					/>
 				</button>
 				{/*Json viewer button*/}
-				<button onClick={this.onWindowToggle.bind(this, 'json')}>
+				<button onClick={() => {this.onWindowToggle('json')}}>
 					<i
 						className={"fas fa-code" + ( (this.props.windows.json) ? ' active' : '')}
 						title="JSON representation"
 					/>
 				</button>
 				{/*Console window button*/}
-				<button onClick={this.onWindowToggle.bind(this, 'console')}>
+				<button onClick={() => {this.onWindowToggle('console')}}>
 					<i
 						className={"fas fa-terminal" + ( (this.props.windows.console) ? ' active' : '')}
 						title="Console"
