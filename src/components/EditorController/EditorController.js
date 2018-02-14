@@ -9,7 +9,6 @@ class EditorController extends Component {
 
 
 	render(){
-		console.log(this.props);
 		return(
 			<div className="Editor-controller">
 				{/*Library button*/}

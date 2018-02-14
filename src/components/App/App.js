@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import './App.css';
 
 import EditorController from "../EditorController/EditorController";
+import LibraryWindow from "../Windows/LibraryWindow";
+import ConsoleWindow from "../Windows/ConsoleWindow";
+import JSONWindow from "../Windows/JSONWindow";
 
 class App extends Component {
 	constructor(){
@@ -22,6 +25,8 @@ class App extends Component {
 	}
 
 	render() {
+		let w = this.state.windows;
+		const hasWindows = w.library || w.json || w.console;
 		return (
 			<main>
 				<header className="Flo-header">
@@ -29,16 +34,20 @@ class App extends Component {
 				</header>
 				<div className="Flo-content">
 					<div className='Flo-left-pane'>
-
-						<div className='editor-window' id="lib-window">
-							Library HERE
+						{!hasWindows > 0 &&
+						<div className='window-holder'>
+							<i class="fas fa-edit"></i>
 						</div>
-						<div className='editor-window' id="json-window">
-							JSON HERE
-						</div>
-						<div className='editor-window' id="console-window">
-							Console HERE
-						</div>
+						}
+						<LibraryWindow
+							isVisible={this.state.windows.library}
+						/>
+						<JSONWindow
+							isVisible={this.state.windows.json}
+						/>
+						<ConsoleWindow
+							isVisible={this.state.windows.console}
+						/>
 						<EditorController
 							windows={this.state.windows}
 							onWindowToggle={this.onWindowToggle.bind(this)}
