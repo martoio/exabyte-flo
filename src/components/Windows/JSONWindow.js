@@ -8,19 +8,26 @@ class JSONWindow extends React.Component{
 
 	render() {
 		let content = '';
+		//TODO: Remove comment after implementing test
+		//If the isVisible flag is passed down,
+		//the content is set to a <ReactJSON> component
 		if (this.props.isVisible) {
-			content = <div className='editor-window'>
+			content = (
 				<ReactJSON
 					src={this.props.graph}
 					theme={'codeschool'}
 				/>
-			</div>
-
+			);
 		}
 		return (
-		content
-		);
-		}
-		}
+			//TODO: Remove comment after implementing test
+			//div.editor-window gets rendered always
+			<div className='editor-window'>
+				{ content }
+			</div>
 
-		export default JSONWindow;
+		);
+	}
+}
+
+export default JSONWindow;
