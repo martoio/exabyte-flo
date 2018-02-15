@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import './App.css';
 
 import EditorController from "../EditorController/EditorController";
-import LibraryWindow from "../Windows/LibraryWindow";
-import ConsoleWindow from "../Windows/ConsoleWindow";
-import JSONWindow from "../Windows/JSONWindow";
+import LibraryWindow from "../Windows/LibraryWindow/LibraryWindow";
+import ConsoleWindow from "../Windows/ConsoleWindow/ConsoleWindow";
+import JSONWindow from "../Windows/JSONWindow/JSONWindow";
 import Graph from "../Flowchart/Graph";
 import GraphConfig from '../Flowchart/graph-config';
 import {DragDropContext} from 'react-dnd';

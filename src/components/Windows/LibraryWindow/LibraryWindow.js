@@ -1,14 +1,16 @@
 import React from 'react';
 import {Accordion, Icon} from 'semantic-ui-react';
+import FlowBlock from './FlowBlock';
 
-class LibraryWindow extends React.Component{
+class LibraryWindow extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			activeIndex: 0
 		};
 	}
-	handleClick(e, titleProps){
+
+	handleClick(e, titleProps) {
 		const {index} = titleProps;
 		const {activeIndex} = this.state;
 		const newIndex = activeIndex === index ? -1 : index;
@@ -25,10 +27,12 @@ class LibraryWindow extends React.Component{
 				<div className='editor-window'>
 					<Accordion fluid styled>
 						<Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick.bind(this)}>
-							<Icon name='dropdown' />
+							<Icon name='dropdown'/>
 							Generic Block
+
 						</Accordion.Title>
 						<Accordion.Content active={activeIndex === 0}>
+							<FlowBlock/>
 							<p>
 								A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a
 								{' '}welcome guest in many households across the world.
@@ -36,7 +40,7 @@ class LibraryWindow extends React.Component{
 						</Accordion.Content>
 
 						<Accordion.Title active={activeIndex === 1} index={1} onClick={this.handleClick.bind(this)}>
-							<Icon name='dropdown' />
+							<Icon name='dropdown'/>
 							Math Blocks
 						</Accordion.Title>
 						<Accordion.Content active={activeIndex === 1}>
@@ -46,7 +50,7 @@ class LibraryWindow extends React.Component{
 							</p>
 						</Accordion.Content>
 						<Accordion.Title active={activeIndex === 2} index={2} onClick={this.handleClick.bind(this)}>
-							<Icon name='dropdown' />
+							<Icon name='dropdown'/>
 							Math Blocks
 						</Accordion.Title>
 						<Accordion.Content active={activeIndex === 2}>
@@ -97,7 +101,7 @@ class LibraryWindow extends React.Component{
 				</div>
 			);
 		}
-		return(
+		return (
 			content
 		);
 	}
