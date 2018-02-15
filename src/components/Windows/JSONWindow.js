@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactJSON from 'react-json-view';
+import PropTypes from 'prop-types';
 
-class JSONWindow extends React.Component{
+class JSONWindow extends React.Component {
 	constructor(props) {
 		super(props);
 	}
@@ -23,7 +24,7 @@ class JSONWindow extends React.Component{
 			//TODO: Remove comment after implementing test
 			//div.editor-window gets rendered always
 			<div className='editor-window'>
-				{ content }
+				{content}
 			</div>
 
 		);
@@ -31,3 +32,11 @@ class JSONWindow extends React.Component{
 }
 
 export default JSONWindow;
+
+JSONWindow.propTypes = {
+	isVisible: PropTypes.bool.isRequired,
+	graph: PropTypes.shape({
+		nodes: PropTypes.array.isRequired,
+		edges: PropTypes.array.isRequired
+	}).isRequired
+};
