@@ -11,7 +11,6 @@ import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
 
-console.log(GraphConfig.NodeTypes.begin.shape);
 const NODE_KEY = "id"; // Key used to identify nodes
 
 // These keys are arbitrary (but must match the config)
@@ -144,7 +143,6 @@ class App extends Component {
 		// There is also support for subtypes. (see 'sample' above)
 		// The subtype geometry will underlay the 'type' geometry for a node
 		const type = this.state.blockType;
-		console.log(this.state.blockType);
 		const viewNode = {
 			id: this.state.graph.nodes.length + 1,
 			title: '',

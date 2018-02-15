@@ -76,7 +76,6 @@ class Graph extends Component {
 
 	constructor(props) {
 		super(props);
-		console.log(props.graph);
 		this.getViewNode = this.props.getViewNode;
 		this.onSelectNode = this.props.onSelectNode;
 		this.onCreateNode = this.props.onCreateNode;
