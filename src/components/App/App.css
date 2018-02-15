@@ -27,8 +27,6 @@
   text-align: center;
   width: 100%;
   background: #2A3245;
-  color: white;
-  font-size: 2em;
   padding: .4em 0;
   border-bottom: 2px solid #cccccc;
 
@@ -36,6 +34,8 @@
 
 .Flo-header h1{
   margin: 0;
+  color: white;
+  font-size: 3em;
 }
 .Flo-content{
   display: flex;
