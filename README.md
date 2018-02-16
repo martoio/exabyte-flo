@@ -24,3 +24,49 @@ All components are located inside `src/components` and tests can be found alongs
 
 ### `App.js` component
 This is the main component for the application and it holds the state for the entire application.
+
+The elements of the state are as follows:
+
+| Key           | Value           | Function  |
+| ------------- |:-------------:| -----:|
+| `windows`      | `Object` w/ keys [`library`, `json`, `console`, `node`] and Boolean values | Holds info about which windows should be displayed in the left pane |
+| `graph`      | `Object`      |   Data structure representig the flowchart graph |
+| `selected` | `Object`      |    Holds the currently selected node |
+| `blockType` | `String` | Constant defined in graph-config that defines an empty block type|
+|`nextEdgeId`| `Int` > 0, initial 0| Incrementing ID counter for graph edges |
+|`nextNodeId`| `Int` > 0, initial 0| Same thing for nodes |
+|`canEditNode`| `Bool` | Flag whether the currently selected node is editable/configurable |
+
+#### Flowchart graph
+The flowchart is represented using a directed graph as the underlying data structure as provided by [react-digraph](https://github.com/uber/react-digraph). The basic structure is:
+```
+graph = {
+    nodes: [],
+    edges: []
+};
+```
+Node Schema:
+| Key           | Value           | Function  |
+| ------------- |:-------------:| -----:|
+|`id`| `int` | unique ID for this node|
+|`title`| `String` | Title to display |
+|`type`| `String` | type as defined in [graph-config](https://github.com/martoio/exabyte-flo/blob/master/src/components/Flowchart/graph-config.js) |
+|`x`| `float` | x-coordinate in d3.svg space |
+|`y`| `float` | y-coordinate in d3.svg space |
+|`outEdge`| `Int || null (initial)` | ID of outgoing edge |
+|`inEdge`| `Int || null (initial)` | ID of incoming edge |
+
+
+```
+Example:
+node = {
+	id: 4
+    title: 'Var-1',
+    type: 'process',
+    x: 0,
+    y: 0,
+    outEdge: 2
+    inEdge: 3
+
+}
+```

@@ -71,7 +71,6 @@ class App extends Component {
 	}
 
 	/**
-	 *
 	 * @param type - node type to add. Check /src/components/Flowchart/graph-config. type corresponds to shapeId
 	 * inside NodeTypes;
 	 */
@@ -81,18 +80,17 @@ class App extends Component {
 			this.error('First node has to be a Begin node!');
 			return;
 		}
-		//TODO: extract this + implement better functionality
-		let coords = [0,0];
-
+		//TODO: figure out how to get mouse location coordinates from GraphView
 		const newNode = {
 			id: this.state.nextNodeId,
 			title: '',
 			type: type,
-			x: coords[0],
-			y: coords[1],
+			x: 0,
+			y: 0,
 			outEdge: null,
 			inEdge: null
 		};
+		//Decision nodes have 2 outgoing edges, which we represent with an extra key in our object.
 		if(type === GraphConfig.NodeTypes.decision.typeText.toLowerCase()) {
 			newNode['falseEdge'] = null;
 		}
@@ -108,13 +106,6 @@ class App extends Component {
 	getNodeIndex(searchNode) {
 		return this.state.graph.nodes.findIndex((node) => {
 			return node[NODE_KEY] === searchNode[NODE_KEY]
-		});
-	}
-
-	//Helper to find the index of an edge given the id
-	getEdgeIndexFromId(edgeId){
-		return this.state.graph.edges.findIndex((edge) => {
-			return edge.id === edgeId;
 		});
 	}
 
@@ -176,12 +167,10 @@ class App extends Component {
 	//Required by digraph. Since we aren't using Shift+click to add nodes, function is left empty;
 	onCreateNode = (x, y) => {};
 
-	//TODO: update lastInsertedNode state!!!
 	// Deletes a node from the graph
 	//NOTE: digraph implementation does not seem to call this function
 	//when you are trying to delete the first node...?
 	onDeleteNode = viewNode => {
-		console.log(viewNode);
 		const graph = this.state.graph;
 		const i = this.getNodeIndex(viewNode);
 		graph.nodes.splice(i, 1);
@@ -195,7 +184,7 @@ class App extends Component {
 			}
 			return true;
 		});
-		console.log(deletedEdges);
+		//Find nodes that still have a reference to the deleted edges
 		graph.nodes.forEach((node) => {
 			if(deletedEdges.includes(node.inEdge)){
 				node.inEdge = null;
@@ -208,7 +197,6 @@ class App extends Component {
 			}
 		});
 
-
 		graph.edges = newEdges;
 
 		this.setState({
@@ -218,7 +206,7 @@ class App extends Component {
 		});
 	};
 
-	//TODO: update logic for edge here. - enter validation if edge can be created. implement checks for whether the edge is a true/false/simple edge. etc.
+	//TODO: make more succinct
 	// Creates a new node between two edges
 	onCreateEdge = (sourceViewNode, targetViewNode) => {
 		if(sourceViewNode.id === targetViewNode.id){
@@ -228,7 +216,6 @@ class App extends Component {
 		const graph = this.state.graph;
 
 		//Error checking;
-
 		if(targetViewNode.type === GraphConfig.NodeTypes.begin.typeText.toLowerCase()) {
 			this.error('Start Block cannot have an incoming edge');
 			return;
@@ -239,7 +226,6 @@ class App extends Component {
 		}
 		if(targetViewNode.inEdge !== null){
 			this.error('This node already has an incoming edge!');
-			console.log();
 		}
 		let type;
 		const viewEdge = {
@@ -259,13 +245,11 @@ class App extends Component {
 				type = 'falseEdge';
 				sourceViewNode.falseEdge = viewEdge.id;
 			}
-			//add decision edge;
 		} else {
 			if(sourceViewNode.outEdge !== null){
 				this.error('This node already has outgoing edge!');
 				return;
 			}
-			//add normal edge;
 			type = EMPTY_EDGE_TYPE;
 			sourceViewNode.outEdge = viewEdge.id;
 		}
@@ -298,8 +282,6 @@ class App extends Component {
 		targetNode.inEdge = null;
 
 		graph.edges.splice(i, 1);
-
-
 
 		this.setState({graph: graph, selected: {}});
 	};
