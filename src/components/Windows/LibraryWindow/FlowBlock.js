@@ -31,7 +31,6 @@ class FlowBlock extends React.Component {
 			<div>
 				<Card.Group>
 					<Card
-						styled
 						style={{
 							opacity: isDragging ? 0.5 : 1,
 							cursor: 'move'
