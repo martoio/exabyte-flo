@@ -9,69 +9,6 @@ const styles = {
 	}
 };
 
-const NODE_KEY = "id"; // Key used to identify nodes
-
-// These keys are arbitrary (but must match the config)
-// However, GraphView renders text differently for empty types
-// so this has to be passed in if that behavior is desired.
-const EMPTY_TYPE = "empty"; // Empty node type
-const SPECIAL_TYPE = "special";
-const SPECIAL_CHILD_SUBTYPE = "specialChild";
-const BEGIN_BLOCK_TYPE = "begin";
-const END_BLOCK_TYPE = "end";
-const PROCESS_BLOCK_TYPE = "process";
-const DECISION_BLOCK_TYPE = "decision";
-const EMPTY_EDGE_TYPE = "emptyEdge";
-const SPECIAL_EDGE_TYPE = "specialEdge";
-
-// NOTE: Edges must have 'source' & 'target' attributes
-// In a more realistic use case, the graph would probably originate
-// elsewhere in the App or be generated from some other state upstream of this component.
-// const sample = {
-// 	"nodes": [
-// 		{
-// 			"id": 1,
-// 			"title": "Node A",
-// 			"x": 258.3976135253906,
-// 			"y": 331.9783248901367,
-// 			"type": BEGIN_BLOCK_TYPE
-// 		},
-// 		{
-// 			"id": 2,
-// 			"title": "Node B",
-// 			"x": 593.9393920898438,
-// 			"y": 260.6060791015625,
-// 			"type": PROCESS_BLOCK_TYPE,
-// 		},
-// 		{
-// 			"id": 3,
-// 			"title": "Node C",
-// 			"x": 237.5757598876953,
-// 			"y": 61.81818389892578,
-// 			"type": DECISION_BLOCK_TYPE
-// 		},
-// 		{
-// 			"id": 4,
-// 			"title": "Node C",
-// 			"x": 600.5757598876953,
-// 			"y": 600.81818389892578,
-// 			"type": EMPTY_TYPE
-// 		}
-// 	],
-// 	"edges": [
-// 		{
-// 			"source": 1,
-// 			"target": 2,
-// 			"type": SPECIAL_EDGE_TYPE
-// 		},
-// 		{
-// 			"source": 2,
-// 			"target": 4,
-// 			"type": EMPTY_EDGE_TYPE
-// 		}
-// 	]
-// };
-
 class Graph extends Component {
 
 	constructor(props) {
@@ -96,23 +33,19 @@ class Graph extends Component {
 		const edges = this.props.graph.edges;
 		const selected = this.props.selected;
 
-		const NodeTypes = GraphConfig.NodeTypes;
-		const NodeSubtypes = GraphConfig.NodeSubtypes;
-		const EdgeTypes = GraphConfig.EdgeTypes;
-
 		return (
 			<div id='graph' style={styles.graph}>
 
 				<GraphView
 					ref={(el) => this.GraphView = el}
-					nodeKey={NODE_KEY}
-					emptyType={EMPTY_TYPE}
+					nodeKey={GraphConfig.NodeKey}
+					emptyType={GraphConfig.NodeTypes.empty.ref}
 					nodes={nodes}
 					edges={edges}
 					selected={selected}
-					nodeTypes={NodeTypes}
-					nodeSubtypes={NodeSubtypes}
-					edgeTypes={EdgeTypes}
+					nodeTypes={GraphConfig.NodeTypes}
+					nodeSubtypes={GraphConfig.NodeSubtypes}
+					edgeTypes={GraphConfig.EdgeTypes}
 					enableFocus={true}
 					getViewNode={this.props.getViewNode}
 					onSelectNode={this.props.onSelectNode}

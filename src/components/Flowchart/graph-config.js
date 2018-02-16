@@ -151,13 +151,15 @@ const Shapes = {
 //make a Shapes object and put the shapes there and reference them here:
 // shape: Shapes.EmptyShape.shape, shapeSVG: Shapes.EmptyShape.svg
 export default {
+	NodeKey: 'id',
 	NodeTypes: {
 		//default digraph example. left for reference purposes
 		empty: {
 			typeText: "",
 			shapeId: Shapes.EmptyBlock.id,
 			shape: Shapes.EmptyBlock.shape,
-			shapeSVG: Shapes.EmptyBlock.svg
+			shapeSVG: Shapes.EmptyBlock.svg,
+			ref: 'empty'
 		},
 		special: {
 			typeText: "Special",
