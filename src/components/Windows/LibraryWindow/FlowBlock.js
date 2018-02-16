@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Card} from 'semantic-ui-react';
 import {DragSource} from 'react-dnd';
-import GraphConfig from '../../Flowchart/graph-config';
 //TODO: move this to some config file
 const ItemTypes = {
 	BLOCK: 'block'
@@ -10,7 +9,8 @@ const ItemTypes = {
 
 const blockSource = {
 	beginDrag(props) {
-		return {block: props};
+		//ShapeId is of model '#nodeType'. .substring to pass it along w/o #
+		return {blockType: props.shapeId.substring(1)};
 	}
 };
 

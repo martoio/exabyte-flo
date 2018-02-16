@@ -82,8 +82,8 @@ class Graph extends Component {
 const FlowChartTarget = {
 	drop(props, monitor, component){
 		const item = monitor.getItem();
-		console.log(item);
 		//TODO: ADD NODE TO GRAPH;
+		props.addNodeOnDrop(item.blockType);
 		return {moved: true};
 	}
 };

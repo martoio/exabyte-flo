@@ -47,7 +47,10 @@ class LibraryWindow extends React.Component {
 						{accordionTitle}
 					</Accordion.Title>
 				);
-				libMenu[accordionTitle].forEach((block) => {
+				//using traditional for-loop instead of .forEach to avoid
+				//es-lint warning no-loop-func;
+				for(let i = 0; i < libMenu[accordionTitle].length; i++){
+					let block = libMenu[accordionTitle][i];
 					accordionContent.push(
 						<Accordion.Content key={block.shapeId} active={activeIndex === index}>
 							<FlowBlock key={'block-'+block.shapeId} shapeId={block.shapeId} name={block.typeText}>
@@ -55,10 +58,7 @@ class LibraryWindow extends React.Component {
 							</FlowBlock>
 						</Accordion.Content>
 					);
-				});
-
-
-
+				}
 				index++;
 			}
 			content = (

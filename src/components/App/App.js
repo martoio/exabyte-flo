@@ -83,6 +83,28 @@ class App extends Component {
 		return w.library || w.json || w.console;
 	}
 
+	addNodeOnDrop(type){
+		let graph = this.state.graph;
+		//TODO: extract this + implement better functionality
+		let coords = [0,0];
+		if(graph.nodes.length === 0){
+			coords = [0, 0];
+		}
+
+		const newNode = {
+			id: graph.nodes.length+1,
+			title: '',
+			type: type,
+			x: coords[0],
+			y: coords[1]
+		};
+		console.log(newNode);
+		graph.nodes.push(newNode);
+		this.setState({
+			graph: graph
+		});
+	}
+
 	// Helper to find the index of a given node
 	getNodeIndex(searchNode) {
 		return this.state.graph.nodes.findIndex((node) => {
@@ -150,7 +172,7 @@ class App extends Component {
 			x: x,
 			y: y
 		};
-
+		console.log(viewNode);
 		graph.nodes.push(viewNode);
 		this.setState({graph: graph});
 	};
@@ -259,6 +281,7 @@ class App extends Component {
 							onCreateEdge={this.onCreateEdge.bind(this)}
 							onSwapEdge={this.onSwapEdge.bind(this)}
 							onDeleteEdge={this.onDeleteEdge.bind(this)}
+							addNodeOnDrop={this.addNodeOnDrop.bind(this)}
 						/>
 					</div>
 				</div>
