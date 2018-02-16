@@ -50,7 +50,7 @@ class LibraryWindow extends React.Component {
 				libMenu[accordionTitle].forEach((block) => {
 					accordionContent.push(
 						<Accordion.Content key={block.shapeId} active={activeIndex === index}>
-							<FlowBlock key={'block-'+block.shapeId} name={block.typeText}>
+							<FlowBlock key={'block-'+block.shapeId} shapeId={block.shapeId} name={block.typeText}>
 								{block.shapeSVG}
 							</FlowBlock>
 						</Accordion.Content>

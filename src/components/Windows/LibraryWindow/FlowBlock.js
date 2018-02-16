@@ -10,7 +10,7 @@ const ItemTypes = {
 
 const blockSource = {
 	beginDrag(props) {
-		return {};
+		return {block: props};
 	}
 };
 

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import GraphConfig from './graph-config';
 import GraphView from 'react-digraph';
+import {DropTarget} from 'react-dnd';
 
 const styles = {
 	graph: {
@@ -32,12 +33,15 @@ class Graph extends Component {
 		const nodes = this.props.graph.nodes;
 		const edges = this.props.graph.edges;
 		const selected = this.props.selected;
-
-		return (
+		const connectDropTarget = this.props.connectDropTarget;
+		const isOver = this.props.isOver;
+		return connectDropTarget(
 			<div id='graph' style={styles.graph}>
 
 				<GraphView
-					ref={(el) => {this.GraphView = el; console.log(el);}}
+					ref={(el) => {
+						this.GraphView = el;
+					}}
 					nodeKey={GraphConfig.NodeKey}
 					emptyType={GraphConfig.NodeTypes.empty.ref}
 					nodes={nodes}
@@ -57,10 +61,42 @@ class Graph extends Component {
 					onSwapEdge={this.props.onSwapEdge}
 					onDeleteEdge={this.props.onDeleteEdge}
 				/>
+				{isOver &&
+				<div style={{
+					position: 'absolute',
+					top: 0,
+					left: 0,
+					height: '100%',
+					width: '100%',
+					zIndex: 1,
+					opacity: 0.5,
+					backgroundColor: 'yellow',
+				}} />
+				}
 			</div>
 		);
 	}
 
 }
 
-export default Graph;
+const FlowChartTarget = {
+	drop(props, monitor, component){
+		const item = monitor.getItem();
+		console.log(item);
+		//TODO: ADD NODE TO GRAPH;
+		return {moved: true};
+	}
+};
+
+function collect(connect, monitor){
+	return {
+		connectDropTarget: connect.dropTarget(),
+		isOver: monitor.isOver(),
+		isOverCurrent: monitor.isOver({shallow: true}),
+		canDrop: monitor.canDrop,
+		itemType: monitor.getItemType()
+	};
+}
+
+//TODO: THIS HAS TO BE EXTRACTED TO CONFIG
+export default DropTarget('block', FlowChartTarget, collect)(Graph);
