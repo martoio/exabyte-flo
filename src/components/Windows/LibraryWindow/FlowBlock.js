@@ -23,7 +23,9 @@ function collect(connect, monitor) {
 
 
 class FlowBlock extends React.Component {
-
+	constructor(props){
+		super(props);
+	}
 	render() {
 		const {connectDragSource, isDragging} = this.props;
 
@@ -36,8 +38,8 @@ class FlowBlock extends React.Component {
 							cursor: 'move'
 						}}
 					>
-						<Card.Header>Start Block</Card.Header>
-						<Card.Content>{GraphConfig.NodeTypes.empty.shapeSVG}</Card.Content>
+						<Card.Header>{this.props.name || 'Empty'}</Card.Header>
+						<Card.Content>{this.props.children}</Card.Content>
 
 					</Card>
 				</Card.Group>

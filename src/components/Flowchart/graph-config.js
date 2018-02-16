@@ -180,7 +180,7 @@ export default {
 		},
 		process: {
 			typeText: "Process",
-			shapeId: Shapes.EndBlock.id,
+			shapeId: Shapes.ProcessBlock.id,
 			shape: Shapes.ProcessBlock.shape,
 			shapeSVG: Shapes.ProcessBlock.svg
 		},
