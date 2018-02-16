@@ -19,3 +19,7 @@ main{
 a{
   color: black;
 }
+
+g.edge{
+  opacity: 1 !important;
+}

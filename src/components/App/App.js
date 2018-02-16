@@ -10,19 +10,15 @@ import GraphConfig from '../Flowchart/graph-config';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-
+//TODO: REFACTOR AND REMOVE THIS.
 const NODE_KEY = "id"; // Key used to identify nodes
 
 // These keys are arbitrary (but must match the config)
 // However, GraphView renders text differently for empty types
 // so this has to be passed in if that behavior is desired.
+//TODO: REFACTOR SO THESE CAN BE REMOVED. THEY ARE UNNECESSARY
 const EMPTY_TYPE = "empty"; // Empty node type
 const SPECIAL_TYPE = "special";
-const SPECIAL_CHILD_SUBTYPE = "specialChild";
-const BEGIN_BLOCK_TYPE = "begin";
-const END_BLOCK_TYPE = "end";
-const PROCESS_BLOCK_TYPE = "process";
-const DECISION_BLOCK_TYPE = "decision";
 const EMPTY_EDGE_TYPE = "emptyEdge";
 const SPECIAL_EDGE_TYPE = "specialEdge";
 
@@ -40,34 +36,20 @@ class App extends Component {
 				edges: []
 			},
 			selected: {},
-			blockType: EMPTY_TYPE
+			blockType: EMPTY_TYPE,
+			nextEdgeId: 0,
+			nextNodeId: 0,
+			lastAddedNode: -1
 		};
 	}
 
-	changeBlockType(t){
-		switch (t){
-
-			case 'begin':
-				this.setState({blockType: BEGIN_BLOCK_TYPE});
-				break;
-			case 'end':
-				this.setState({blockType: END_BLOCK_TYPE});
-				break;
-			case 'process':
-				this.setState({blockType: PROCESS_BLOCK_TYPE});
-				break;
-			case 'decision':
-				this.setState({blockType: DECISION_BLOCK_TYPE});
-				break;
-			default:
-				this.setState({blockType: EMPTY_TYPE});
-				break;
-		}
+	error(msg){
+		alert(msg);
 	}
 
 	/**
 	 * updates the state for window display;
-	 * @param win
+	 * @param win - one of ['library', 'console', 'json'] passed from onClick of EditorController;
 	 */
 	onWindowToggle(win) {
 		let update = this.state.windows;
@@ -83,25 +65,37 @@ class App extends Component {
 		return w.library || w.json || w.console;
 	}
 
+	/**
+	 *
+	 * @param type - node type to add. Check /src/components/Flowchart/graph-config. type corresponds to shapeId
+	 * inside NodeTypes;
+	 */
 	addNodeOnDrop(type){
 		let graph = this.state.graph;
+		if(graph.nodes.length === 0 && type !== GraphConfig.NodeTypes.begin.typeText.toLowerCase()) {
+			this.error('First node has to be a Begin node!');
+			return;
+		}
 		//TODO: extract this + implement better functionality
 		let coords = [0,0];
-		if(graph.nodes.length === 0){
-			coords = [0, 0];
-		}
 
 		const newNode = {
-			id: graph.nodes.length+1,
+			id: this.state.nextNodeId,
 			title: '',
 			type: type,
 			x: coords[0],
-			y: coords[1]
+			y: coords[1],
+			outEdge: null,
+			inEdge: null
 		};
-		console.log(newNode);
+		if(type === GraphConfig.NodeTypes.decision.typeText.toLowerCase()) {
+			newNode['falseEdge'] = null;
+		}
 		graph.nodes.push(newNode);
 		this.setState({
-			graph: graph
+			graph: graph,
+			lastAddedNode: newNode.id,
+			nextNodeId: this.state.nextNodeId+1,
 		});
 	}
 
@@ -109,7 +103,14 @@ class App extends Component {
 	getNodeIndex(searchNode) {
 		return this.state.graph.nodes.findIndex((node) => {
 			return node[NODE_KEY] === searchNode[NODE_KEY]
-		})
+		});
+	}
+
+	//Helper to find the index of an edge given the id
+	getEdgeIndexFromId(edgeId){
+		return this.state.graph.edges.findIndex((edge) => {
+			return edge.id === edgeId;
+		});
 	}
 
 	// Helper to find the index of a given edge
@@ -117,7 +118,7 @@ class App extends Component {
 		return this.state.graph.edges.findIndex((edge) => {
 			return edge.source === searchEdge.source &&
 				edge.target === searchEdge.target
-		})
+		});
 	}
 
 	// Given a nodeKey, return the corresponding node
@@ -158,73 +159,132 @@ class App extends Component {
 	};
 
 	// Updates the graph with a new node
-	onCreateNode = (x, y) => {
-		const graph = this.state.graph;
-		// This is just an example - any sort of logic
-		// could be used here to determine node type
-		// There is also support for subtypes. (see 'sample' above)
-		// The subtype geometry will underlay the 'type' geometry for a node
-		const type = this.state.blockType;
-		const viewNode = {
-			id: this.state.graph.nodes.length + 1,
-			title: '',
-			type: type,
-			x: x,
-			y: y
-		};
-		console.log(viewNode);
-		graph.nodes.push(viewNode);
-		this.setState({graph: graph});
-	};
+	//Required by digraph. Since we aren't using Shift+click to add nodes, function is left empty;
+	onCreateNode = (x, y) => {};
 
+	//TODO: update lastInsertedNode state!!!
 	// Deletes a node from the graph
+	//NOTE: digraph implementation does not seem to call this function
+	//when you are trying to delete the first node...?
 	onDeleteNode = viewNode => {
+		console.log(viewNode);
 		const graph = this.state.graph;
 		const i = this.getNodeIndex(viewNode);
 		graph.nodes.splice(i, 1);
 
 		// Delete any connected edges
+		let deletedEdges = [];
 		const newEdges = graph.edges.filter((edge, i) => {
-			return edge.source !== viewNode[NODE_KEY] &&
-				edge.target !== viewNode[NODE_KEY]
+			if(edge.target === viewNode.id || edge.source === viewNode.id){
+				deletedEdges.push(edge.id);
+				return false;
+			}
+			return true;
 		});
+		console.log(deletedEdges);
+		graph.nodes.forEach((node) => {
+			if(deletedEdges.includes(node.inEdge)){
+				node.inEdge = null;
+			}
+			if(deletedEdges.includes(node.outEdge)){
+				node.outEdge = null;
+			}
+			if(deletedEdges.includes(node.falseEdge)){
+				node.falseEdge = null;
+			}
+		});
+
 
 		graph.edges = newEdges;
 
-		this.setState({graph: graph, selected: {}});
+		this.setState({
+			graph: graph,
+			selected: {},
+
+		});
 	};
 
+	//TODO: update logic for edge here. - enter validation if edge can be created. implement checks for whether the edge is a true/false/simple edge. etc.
 	// Creates a new node between two edges
 	onCreateEdge = (sourceViewNode, targetViewNode) => {
+		if(sourceViewNode.id === targetViewNode.id){
+			this.error('Cannot set edge on same node!');
+			return;
+		}
 		const graph = this.state.graph;
 
-		// This is just an example - any sort of logic
-		// could be used here to determine edge type
-		const type = sourceViewNode.type === SPECIAL_TYPE ? SPECIAL_EDGE_TYPE : EMPTY_EDGE_TYPE;
+		//Error checking;
 
+		if(targetViewNode.type === GraphConfig.NodeTypes.begin.typeText.toLowerCase()) {
+			this.error('Start Block cannot have an incoming edge');
+			return;
+		}
+		if(sourceViewNode.type === GraphConfig.NodeTypes.end.typeText.toLowerCase()){
+			this.error('End Block cannot have an outgoing edge!');
+			return;
+		}
+		if(targetViewNode.inEdge !== null){
+			this.error('This node already has an incoming edge!');
+			console.log();
+		}
+		let type;
 		const viewEdge = {
+			id: this.state.nextEdgeId,
 			source: sourceViewNode[NODE_KEY],
 			target: targetViewNode[NODE_KEY],
-			type: type
 		};
-
-		// Only add the edge when the source node is not the same as the target
-		if (viewEdge.source !== viewEdge.target) {
-			graph.edges.push(viewEdge);
-			this.setState({graph: graph});
+		if(sourceViewNode.type === GraphConfig.NodeTypes.decision.typeText.toLowerCase()){
+			if(sourceViewNode.outEdge !== null && sourceViewNode.falseEdge !== null) {
+				this.error('A Decision node can have only 2 outgoing edges!');
+				return;
+			}
+			if(sourceViewNode.outEdge === null){
+				type = 'trueEdge';
+				sourceViewNode.outEdge = viewEdge.id;
+			} else if(sourceViewNode.falseEdge === null){
+				type = 'falseEdge';
+				sourceViewNode.falseEdge = viewEdge.id;
+			}
+			//add decision edge;
+		} else {
+			if(sourceViewNode.outEdge !== null){
+				this.error('This node already has outgoing edge!');
+				return;
+			}
+			//add normal edge;
+			type = EMPTY_EDGE_TYPE;
+			sourceViewNode.outEdge = viewEdge.id;
 		}
+		targetViewNode.inEdge = viewEdge.id;
+		viewEdge['type'] = type;
+
+		graph.edges.push(viewEdge);
+		this.setState({
+			graph: graph,
+			nextEdgeId: this.state.nextEdgeId+1
+		});
 	};
 
+	//TODO: implement logic to check if swap is allowed.
 	// Called when an edge is reattached to a different target.
 	onSwapEdge = (sourceViewNode, targetViewNode, viewEdge) => {
 		const graph = this.state.graph;
 		const i = this.getEdgeIndex(viewEdge);
 		const edge = JSON.parse(JSON.stringify(graph.edges[i]));
-
+		const N = this.getViewNode(viewEdge.target);
 		edge.source = sourceViewNode[NODE_KEY];
-		edge.target = targetViewNode[NODE_KEY];
-		graph.edges[i] = edge;
+		if(targetViewNode.inEdge === null){
+			//Edges can be swapped
+			edge.target = targetViewNode[NODE_KEY];
+			N.inEdge = null;
+			// targetViewNode
+		} else {
+			edge.target = viewEdge.target;
+			this.error('Cannot swap edges. Target node has an incoming edge!');
+		}
 
+		graph.edges[i] = edge;
+		console.log(i, edge, graph.edges);
 		this.setState({graph: graph});
 	};
 
@@ -232,7 +292,17 @@ class App extends Component {
 	onDeleteEdge = viewEdge => {
 		const graph = this.state.graph;
 		const i = this.getEdgeIndex(viewEdge);
+
+		const sourceNode = this.getViewNode(viewEdge.source);
+		const targetNode = this.getViewNode(viewEdge.target);
+		//TODO: implement logic for what happens if node is decision node;
+		sourceNode.outEdge = null;
+		targetNode.inEdge = null;
+
 		graph.edges.splice(i, 1);
+
+
+
 		this.setState({graph: graph, selected: {}});
 	};
 
@@ -253,7 +323,6 @@ class App extends Component {
 						}
 						<LibraryWindow
 							isVisible={this.state.windows.library}
-							changeBlockType={this.changeBlockType.bind(this)}
 						/>
 						<JSONWindow
 							isVisible={this.state.windows.json}

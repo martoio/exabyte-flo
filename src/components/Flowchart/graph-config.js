@@ -75,14 +75,14 @@ const EmptyEdgeShape = (
 );
 
 const TrueEdgeShape = (
-	<symbol viewBox="0 0 50 50" id="emptyEdge">
+	<symbol viewBox="0 0 50 50" id="trueEdge">
 		<circle cx="25" cy="25" r="20" fill="currentColor"> </circle>
 		<text x='20' y='35' fontSize='20'>T</text>
 	</symbol>
 );
 
 const FalseEdgeShape = (
-	<symbol viewBox="0 0 50 50" id="emptyEdge">
+	<symbol viewBox="0 0 50 50" id="falseEdge">
 		<circle cx="25" cy="25" r="20" fill="currentColor"> </circle>
 		<text x='20' y='35' fontSize='20'>F</text>
 	</symbol>
@@ -181,7 +181,7 @@ export default {
 			shape: SpecialShape
 		},
 		begin: {
-			typeText: "Start",
+			typeText: "Begin",
 			shapeId: Shapes.BeginBlock.id,
 			shape: Shapes.BeginBlock.shape,
 			shapeSVG: Shapes.BeginBlock.svg
@@ -220,6 +220,14 @@ export default {
 		specialEdge: {
 			shapeId: "#specialEdge",
 			shape: SpecialEdgeShape
+		},
+		trueEdge: {
+			shapeId: "#trueEdge",
+			shape: TrueEdgeShape
+		},
+		falseEdge: {
+			shapeId: "#falseEdge",
+			shape: FalseEdgeShape
 		}
 	},
 };
