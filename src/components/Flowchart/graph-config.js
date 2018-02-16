@@ -79,14 +79,85 @@ const SpecialEdgeShape = (
 		<rect transform="rotate(45)"  x="25" y="-4.5" width="15" height="15" fill="currentColor" />
 	</symbol>
 );
-
+//TODO: Figure out what the hell viewBox does....
+const Shapes = {
+	BeginBlock: {
+		id: '#begin',
+		shape: (
+			<symbol viewBox="0 0 100 100" id="begin">
+				<ellipse cx='50' cy='65' rx='50' ry='25' />
+			</symbol>
+		),
+		svg:(
+			<svg width='100' height='50'>
+				<ellipse cx='50' cy='25' rx='50' ry='25' />
+			</svg>
+		)
+	},
+	EndBlock: {
+		id: '#end',
+		shape: (
+			<symbol viewBox="0 0 100 100" id="end">
+				<ellipse cx='50' cy='45' rx='50' ry='45' />
+			</symbol>
+		),
+		svg: (
+			<svg width='100' height='50'>
+				<ellipse cx='50' cy='65' rx='50' ry='25' />
+			</svg>
+		)
+	},
+	ProcessBlock: {
+		id: '#process',
+		shape: (
+			<symbol viewBox="0 0 100 100" id="process">
+				<rect y="30" width="110" height="70" />
+			</symbol>
+		),
+		svg: (
+			<svg width='80' height='50'>
+				<rect width="80" height="50" />
+			</svg>
+		)
+	},
+	DecisionBlock: {
+		id: '#decision',
+		shape: (
+			<symbol viewBox="0 0 100 100" id="decision">
+				<rect transform="translate(50 30) rotate(45)" width="50" height="50" />
+			</symbol>
+		),
+		svg: (
+			<svg width='71' height='71'>
+				<rect transform="translate(35.5) rotate(45)" width="50" height="50" />
+			</svg>
+		)
+	},
+	EmptyBlock: {
+		id: '#empty',
+		shape: (
+			<symbol viewBox="0 0 100 100" id="empty">
+				<circle cx="50" cy="50" r="20" />
+			</symbol>
+		),
+		svg: (
+			<svg width='20' height='20'>
+				<circle cx="10" cy="10" r="10" />
+			</svg>
+		)
+	}
+};
+//TODO: Refactor config
+//make a Shapes object and put the shapes there and reference them here:
+// shape: Shapes.EmptyShape.shape, shapeSVG: Shapes.EmptyShape.svg
 export default {
 	NodeTypes: {
 		//default digraph example. left for reference purposes
 		empty: {
-			typeText: "None",
-			shapeId: "#empty",
-			shape: EmptyShape
+			typeText: "",
+			shapeId: Shapes.EmptyBlock.id,
+			shape: Shapes.EmptyBlock.shape,
+			shapeSVG: Shapes.EmptyBlock.svg
 		},
 		special: {
 			typeText: "Special",
@@ -94,24 +165,28 @@ export default {
 			shape: SpecialShape
 		},
 		begin: {
-			typeText: "Begin",
-			shapeId: "#begin",
-			shape: BeginBlock
+			typeText: "Start",
+			shapeId: Shapes.BeginBlock.id,
+			shape: Shapes.BeginBlock.shape,
+			shapeSVG: Shapes.BeginBlock.svg
 		},
 		end: {
 			typeText: "End",
-			shapeId: "#end",
-			shape: EndBlock
+			shapeId: Shapes.EndBlock.id,
+			shape: Shapes.EndBlock.shape,
+			shapeSVG: Shapes.EndBlock.svg
 		},
 		process: {
 			typeText: "Process",
-			shapeId: "#process",
-			shape: ProcessBlock
+			shapeId: Shapes.EndBlock.id,
+			shape: Shapes.ProcessBlock.shape,
+			shapeSVG: Shapes.ProcessBlock.svg
 		},
 		decision: {
 			typeText: "Decision",
-			shapeId: "#decision",
-			shape: DecisionBlock
+			shapeId: Shapes.DecisionBlock.id,
+			shape: Shapes.DecisionBlock.shape,
+			shapeSVG: Shapes.DecisionBlock.svg
 		}
 
 	},
@@ -130,5 +205,6 @@ export default {
 			shapeId: "#specialEdge",
 			shape: SpecialEdgeShape
 		}
-	}
-}
+	},
+};
+

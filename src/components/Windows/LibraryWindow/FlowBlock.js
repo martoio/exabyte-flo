@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Card} from 'semantic-ui-react';
 import {DragSource} from 'react-dnd';
-
+import GraphConfig from '../../Flowchart/graph-config';
 //TODO: move this to some config file
 const ItemTypes = {
 	BLOCK: 'block'
@@ -29,16 +29,22 @@ class FlowBlock extends React.Component {
 
 		return connectDragSource(
 			<div>
-				<Card
-					fluid
-					style={{
-						opacity: isDragging ? 0.5 : 1,
-						cursor: 'move'
-					}}
-					header='Start Block'
-				/>
-			</div>
+				<Card.Group>
+					<Card
+						styled
+						style={{
+							opacity: isDragging ? 0.5 : 1,
+							cursor: 'move'
+						}}
+					>
+						<Card.Header>Start Block</Card.Header>
+						<Card.Content>{GraphConfig.NodeTypes.empty.shapeSVG}</Card.Content>
 
+					</Card>
+				</Card.Group>
+
+
+			</div>
 		);
 	}
 
