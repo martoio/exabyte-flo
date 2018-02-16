@@ -78,7 +78,7 @@ class App extends Component {
 		let graph = this.state.graph;
 		if(graph.nodes.length === 0 && type !== GraphConfig.NodeTypes.begin.typeText.toLowerCase()) {
 			this.error('First node has to be a Begin node!');
-			return;
+			return false;
 		}
 		//TODO: figure out how to get mouse location coordinates from GraphView
 		const newNode = {
@@ -289,6 +289,7 @@ class App extends Component {
 
 	render() {
 		const hasWindows = this.hasWindows();
+		console.log(JSON.stringify(this.state));
 		return (
 			<main>
 				<header className="Flo-header">
