@@ -55,7 +55,13 @@ Node Schema:
 |`y`| `float` | y-coordinate in d3.svg space |
 |`outEdge`| `Int || null (initial)` | ID of outgoing edge |
 |`inEdge`| `Int || null (initial)` | ID of incoming edge |
+|`falseEdge`|`Int || null (initial)`| ID of outgoing False edge on a Decision block|
 
+- **Restrictions**:
+1. The first node created using drag & drop must be a Start block;
+2. Start Blocks cannot have an incoming edge;
+3. End Blocks cannot have an outgoing edge;
+4. Decision Blocks are allowed to have 2 outgoing edges - for the True and False branches.
 
 ```
 Example:
@@ -67,6 +73,25 @@ node = {
     y: 0,
     outEdge: 2
     inEdge: 3
+
+}
+```
+Edge Schema:
+| Key           | Value           | Function  |
+| ------------- |:-------------:| -----:|
+|`id`| `int` | unique ID for this node|
+|`type`| `String` | type as defined in [graph-config](https://github.com/martoio/exabyte-flo/blob/master/src/components/Flowchart/graph-config.js) |
+|`source`| `Int || null (initial)` | ID of source node |
+|`target`| `Int || null (initial)` | ID of target node |
+
+
+```
+Example:
+edge = {
+	id: 2
+    type: EMPTY_EDGE,
+    source: 2
+    target: 3
 
 }
 ```
