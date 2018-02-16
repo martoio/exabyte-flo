@@ -46,6 +46,7 @@ graph = {
 };
 ```
 Node Schema:
+
 | Key           | Value           | Function  |
 | ------------- |:-------------:| -----:|
 |`id`| `int` | unique ID for this node|
@@ -77,6 +78,7 @@ node = {
 }
 ```
 Edge Schema:
+
 | Key           | Value           | Function  |
 | ------------- |:-------------:| -----:|
 |`id`| `int` | unique ID for this node|
