@@ -38,7 +38,7 @@ The elements of the state are as follows:
 |`canEditNode`| `Bool` | Flag whether the currently selected node is editable/configurable |
 
 #### Flowchart graph
-The flowchart is represented using a directed graph as the underlying data structure as provided by [react-digraph](https://github.com/uber/react-digraph). The basic structure is:
+The flowchart is represented using a directed graph as the underlying data structure as provided by [`react-digraph`](https://github.com/uber/react-digraph). The basic structure is:
 ```
 graph = {
     nodes: [],
@@ -97,3 +97,25 @@ edge = {
 
 }
 ```
+### `EditorController.js` component
+Bottom bar in the left-hand pane. Controls the opening/closing of windows. All props are passed in through `App.js`.
+
+| PropType           | Value           | Function  |
+| ------------- |:-------------:| -----:|
+|`onWindowToggle`| `func` | Function to call when a button is pressed. Toggles window visibility|
+|`windows`| `Object values [true, true, false, false] default` | The windows object from `App.js` state |
+|`canEditNode`| `Bool (false default)` | Whether the currently selected node is editable |
+
+### `JSONWindow.js`
+Implements [`react-json-view`](https://www.npmjs.com/package/react-json-view). Takes in an `isVisible` and the `graph` structure as props coming in from `App.js`.
+### `LibraryWindow.js`
+Implements elements from [`semantic-ui-react`](https://react.semantic-ui.com/introduction). Takes in an `isVisible` as props coming in from `App.js`. The `LibraryWindow` renders an accordion with the different blocks which it references from the graph-config file.
+### `ConsoleWindow.js`
+This is supposed to be the console/terminal that outputs results during flowchart execution.
+### `NodeEditWindow.js`
+This is supposed to be the window that edits the parameters of the flowchart blocks.
+### `Graph.js`
+Implements the [`react-digraph`](https://github.com/uber/react-digraph) component. PropType schema is defined in the documentation page for [`react-digraph`](https://github.com/uber/react-digraph) and the props are all passed in through `App.js`.
+
+
+

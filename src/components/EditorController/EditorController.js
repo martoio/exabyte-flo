@@ -8,7 +8,6 @@ class EditorController extends Component {
 		this.onWindowToggle = props.onWindowToggle;
 	}
 
-
 	render() {
 		return (
 			<div className="Editor-controller">
