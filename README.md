@@ -54,9 +54,9 @@ Node Schema:
 |`type`| `String` | type as defined in [graph-config](https://github.com/martoio/exabyte-flo/blob/master/src/components/Flowchart/graph-config.js) |
 |`x`| `float` | x-coordinate in d3.svg space |
 |`y`| `float` | y-coordinate in d3.svg space |
-|`outEdge`| `Int || null (initial)` | ID of outgoing edge |
-|`inEdge`| `Int || null (initial)` | ID of incoming edge |
-|`falseEdge`|`Int || null (initial)`| ID of outgoing False edge on a Decision block|
+|`outEdge`| `Int or null (initial)` | ID of outgoing edge |
+|`inEdge`| `Int or null (initial)` | ID of incoming edge |
+|`falseEdge`|`Int or null (initial)`| ID of outgoing False edge on a Decision block|
 
 - **Restrictions**:
 1. The first node created using drag & drop must be a Start block;
@@ -83,8 +83,8 @@ Edge Schema:
 | ------------- |:-------------:| -----:|
 |`id`| `int` | unique ID for this node|
 |`type`| `String` | type as defined in [graph-config](https://github.com/martoio/exabyte-flo/blob/master/src/components/Flowchart/graph-config.js) |
-|`source`| `Int || null (initial)` | ID of source node |
-|`target`| `Int || null (initial)` | ID of target node |
+|`source`| `Int or null (initial)` | ID of source node |
+|`target`| `Int or null (initial)` | ID of target node |
 
 
 ```
