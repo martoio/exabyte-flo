@@ -74,6 +74,20 @@ const EmptyEdgeShape = (
 	</symbol>
 );
 
+const TrueEdgeShape = (
+	<symbol viewBox="0 0 50 50" id="emptyEdge">
+		<circle cx="25" cy="25" r="20" fill="currentColor"> </circle>
+		<text x='20' y='35' fontSize='20'>T</text>
+	</symbol>
+);
+
+const FalseEdgeShape = (
+	<symbol viewBox="0 0 50 50" id="emptyEdge">
+		<circle cx="25" cy="25" r="20" fill="currentColor"> </circle>
+		<text x='20' y='35' fontSize='20'>F</text>
+	</symbol>
+);
+
 const SpecialEdgeShape = (
 	<symbol viewBox="0 0 50 50" id="specialEdge">
 		<rect transform="rotate(45)"  x="25" y="-4.5" width="15" height="15" fill="currentColor" />
@@ -90,7 +104,7 @@ const Shapes = {
 		),
 		svg:(
 			<svg width='100' height='50'>
-				<ellipse cx='50' cy='25' rx='50' ry='25' />
+				<ellipse cx='50' cy='25' rx='50' ry='25' fill='#eee' stroke='#ccc'/>
 			</svg>
 		)
 	},
