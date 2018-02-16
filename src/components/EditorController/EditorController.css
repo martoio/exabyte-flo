@@ -20,3 +20,11 @@
 .Editor-controller i.active{
     color: white;
 }
+
+.Editor-controller i.canEdit{
+    color: red;
+}
+.Editor-controller i.noEdit{
+    color: #222222;
+    cursor: default;
+}

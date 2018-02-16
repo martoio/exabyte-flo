@@ -42,7 +42,12 @@ class LibraryWindow extends React.Component {
 			let accordionContent = [], index = 0;
 			for(let accordionTitle in libMenu){
 				accordionContent.push(
-					<Accordion.Title key={'ac-title-'+index} active={activeIndex === index} index={index} onClick={this.handleClick.bind(this)}>
+					<Accordion.Title
+						key={'ac-title-'+index}
+						active={activeIndex === index}
+						index={index}
+						onClick={this.handleClick.bind(this)}
+					>
 						<Icon key={'ac-title-icon-'+index} name='dropdown'/>
 						{accordionTitle}
 					</Accordion.Title>

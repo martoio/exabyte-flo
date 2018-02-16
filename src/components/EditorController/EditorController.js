@@ -39,6 +39,13 @@ class EditorController extends Component {
 						title="Console"
 					/>
 				</button>
+				<button disabled={!this.props.canEditNode} onClick={() => {
+					this.onWindowToggle('node')
+				}}>
+					<i
+						className={"fas fa-edit" + ( (this.props.canEditNode) ? ' canEdit' : ' noEdit')}
+					/>
+				</button>
 
 			</div>
 		);
@@ -50,15 +57,19 @@ EditorController.propTypes = {
 	windows: PropTypes.shape({
 		library: PropTypes.bool,
 		json: PropTypes.bool,
-		console: PropTypes.bool
-	}).isRequired
+		console: PropTypes.bool,
+		node: PropTypes.bool
+	}).isRequired,
+	canEditNode: PropTypes.bool
 };
 EditorController.defaultProps = {
 	windows: {
 		library: true,
 		json: true,
-		console: false
-	}
+		console: false,
+		node: false
+	},
+	canEditNode: false
 };
 
 export default EditorController;

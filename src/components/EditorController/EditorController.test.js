@@ -19,8 +19,8 @@ describe('EditorController', () => {
 		expect(div).to.have.length(1);
 	});
 
-	it('always has 3 buttons', () => {
-		expect(editorController.find('button')).to.have.length(3);
+	it('always has 4 buttons', () => {
+		expect(editorController.find('button')).to.have.length(4);
 	});
 
 	describe('buttons', () => {

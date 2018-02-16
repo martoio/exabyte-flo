@@ -9,9 +9,9 @@ import Graph from "../Flowchart/Graph";
 import GraphConfig from '../Flowchart/graph-config';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import NodeEditWindow from "../Windows/NodeEditWindow/NodeEditWindow";
 
-//TODO: REFACTOR AND REMOVE THIS.
-const NODE_KEY = "id"; // Key used to identify nodes
+const NODE_KEY = GraphConfig.NodeKey; // Key used to identify nodes
 
 // These keys are arbitrary (but must match the config)
 // However, GraphView renders text differently for empty types
@@ -21,7 +21,10 @@ const EMPTY_TYPE = "empty"; // Empty node type
 const SPECIAL_TYPE = "special";
 const EMPTY_EDGE_TYPE = "emptyEdge";
 const SPECIAL_EDGE_TYPE = "specialEdge";
-
+const EDITABLE_NODES = [
+	GraphConfig.NodeTypes.decision.typeText.toLowerCase(),
+	GraphConfig.NodeTypes.process.typeText.toLowerCase(),
+];
 class App extends Component {
 	constructor() {
 		super();
@@ -29,7 +32,8 @@ class App extends Component {
 			windows: {
 				library: true,
 				json: true,
-				console: false
+				console: false,
+				node: false
 			},
 			graph: {
 				nodes: [],
@@ -39,7 +43,8 @@ class App extends Component {
 			blockType: EMPTY_TYPE,
 			nextEdgeId: 0,
 			nextNodeId: 0,
-			lastAddedNode: -1
+			lastAddedNode: -1,
+			canEditNode: false
 		};
 	}
 
@@ -62,7 +67,7 @@ class App extends Component {
 	 */
 	hasWindows() {
 		let w = this.state.windows;
-		return w.library || w.json || w.console;
+		return w.library || w.json || w.console || w.node;
 	}
 
 	/**
@@ -147,9 +152,18 @@ class App extends Component {
 	onSelectNode = viewNode => {
 		// Deselect events will send Null viewNode
 		if (!!viewNode) {
-			this.setState({selected: viewNode});
+			this.setState({
+				selected: viewNode,
+				canEditNode: EDITABLE_NODES.includes(viewNode.type)
+			});
 		} else {
-			this.setState({selected: {}});
+			let update = this.state.windows;
+			update.node = false;
+			this.setState({
+				selected: {},
+				canEditNode: false,
+				windows: update
+			});
 		}
 	};
 
@@ -268,24 +282,8 @@ class App extends Component {
 	//TODO: implement logic to check if swap is allowed.
 	// Called when an edge is reattached to a different target.
 	onSwapEdge = (sourceViewNode, targetViewNode, viewEdge) => {
-		const graph = this.state.graph;
-		const i = this.getEdgeIndex(viewEdge);
-		const edge = JSON.parse(JSON.stringify(graph.edges[i]));
-		const N = this.getViewNode(viewEdge.target);
-		edge.source = sourceViewNode[NODE_KEY];
-		if(targetViewNode.inEdge === null){
-			//Edges can be swapped
-			edge.target = targetViewNode[NODE_KEY];
-			N.inEdge = null;
-			// targetViewNode
-		} else {
-			edge.target = viewEdge.target;
-			this.error('Cannot swap edges. Target node has an incoming edge!');
-		}
-
-		graph.edges[i] = edge;
-		console.log(i, edge, graph.edges);
-		this.setState({graph: graph});
+		this.error('Swapping edges functionality is currently unavailable. Sorry!');
+		return;
 	};
 
 	// Called when an edge is deleted
@@ -331,9 +329,15 @@ class App extends Component {
 						<ConsoleWindow
 							isVisible={this.state.windows.console}
 						/>
+						<NodeEditWindow
+							isVisible={this.state.windows.node}
+							node={this.state.selected}
+						/>
+
 						<EditorController
 							windows={this.state.windows}
 							onWindowToggle={this.onWindowToggle.bind(this)}
+							canEditNode={this.state.canEditNode}
 						/>
 					</div>
 					<div className='Flo-right-pane'>
